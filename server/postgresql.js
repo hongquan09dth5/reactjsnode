@@ -1,8 +1,8 @@
 const Pool = require("pg").Pool;
 let ssl = null;
-if (process.env.NODE_ENV !== "production") {
+// if (process.env.NODE_ENV !== "production") {
   ssl = { rejectUnauthorized: false };
-}
+// }
 
 const connectionString = process.env.POSTGRESQL_URL;
 
