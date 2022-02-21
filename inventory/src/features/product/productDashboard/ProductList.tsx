@@ -63,6 +63,7 @@ const ProductList: React.FC<IProps> = ({ products }) => {
       title: "Price",
       key: "price",
       dataIndex: "price",
+      responsive: ["md"],
       width: 120,
       render: (text: string) => (
         <NumberFormat
