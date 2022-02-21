@@ -17,11 +17,18 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/api", routes);
 app.use("/server/assets", express.static("server/assets"));
 
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join("inventory/build")));
-  app.get("*", (req, res) =>
-    res.sendfile(path.resolve(__dirname, "inventory", "build", "index.html"))
-  );
+// if (process.env.NODE_ENV === "production") {
+//   app.use(express.static(path.join("inventory/build")));
+//   app.get("*", (req, res) =>
+//     res.sendfile(path.resolve(__dirname, "inventory", "build", "index.html"))
+//   );
+// }
+
+if(process.env.NODE_ENV === 'production'){
+  app.use(express.static('inventory/build'))
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../inventory', 'build', 'index.html'))
+  })
 }
 
 const port = process.env.PORT || 5000;
