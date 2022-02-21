@@ -1,17 +1,8 @@
 import React, { useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "./../../../app/hook/hooks";
 import { fetchProductsByIdAsync, deleteProductAsync } from "../productActions";
-import {
-  Image,
-  Card,
-  Row,
-  Col,
-  Button,
-  Typography,
-  Modal,
-  notification,
-} from "antd";
-import { ToolbarContainer } from "../../../app/common/styled/ToolBar.styled";
+import { Image, Row, Col, Button, Typography, Modal, notification } from "antd";
+import { ToolbarContainer, ToolbarWithBigDevice, ToolbarWithSmallDevice } from "../../../app/common/styled/ToolBar.styled";
 import NumberFormat from "react-number-format";
 import { Link } from "react-router-dom";
 import {
@@ -24,12 +15,14 @@ import {
   ColumnHeader,
   Heading,
   ShortDescription,
-  ImageWrapper,
-  ToolbarWithSmallDevice,
-  ToolbarWithBigDevice,
+  ImageWrapper
 } from "./ProductDetailPage.styled";
+
 import { SERVER_URL } from "./../../../app/common/constants";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
+import { CardRadius } from "../../../app/common/styled/CardRadius.styled";
+import { ChildContentWrapper } from "../../../app/layout/App.styled";
+import { GhostPageHeader } from "../../../app/common/styled/GhostPageHeader.styled";
 
 const { Text } = Typography;
 const { confirm } = Modal;
@@ -77,121 +70,125 @@ const ProductDetailedPage = ({ match, history }) => {
     }
   };
 
-  if(loading) return <LoadingComponent />
+  if (loading) return <LoadingComponent />;
 
   return (
     <>
-      {product && (
-        <>
-          <Card>
-            <Row>
-              <Col span={24}>
-                <ToolbarContainer>
-                  <Heading>{product.name}</Heading>
-                  <ToolbarWithSmallDevice>
-                    <Link to="/products">
+      <GhostPageHeader className="site-page-header" title="Product Profile" />
+
+      <ChildContentWrapper>
+        {product && (
+          <>
+            <CardRadius>
+              <Row>
+                <Col span={24}>
+                  <ToolbarContainer>
+                    <Heading>{product.name}</Heading>
+                    <ToolbarWithSmallDevice>
+                      <Link to="/products">
+                        <Button
+                          type="default"
+                          icon={<RollbackOutlined />}
+                        ></Button>
+                      </Link>
+                      <Link to={`/updateProduct/${product.id}`}>
+                        <Button type="primary" icon={<EditOutlined />}></Button>
+                      </Link>
+
                       <Button
                         type="default"
-                        icon={<RollbackOutlined />}
+                        icon={<DeleteOutlined />}
+                        onClick={() => showConfirm()}
                       ></Button>
-                    </Link>
-                    <Link to={`/updateProduct/${product.id}`}>
-                      <Button type="primary" icon={<EditOutlined />}></Button>
-                    </Link>
+                    </ToolbarWithSmallDevice>
+                    <ToolbarWithBigDevice>
+                      <Link to={`/updateProduct/${product.id}`}>
+                        <Button type="primary" icon={<EditOutlined />}>
+                          Edit
+                        </Button>
+                      </Link>
 
-                    <Button
-                      type="default"
-                      icon={<DeleteOutlined />}
-                      onClick={() => showConfirm()}
-                    ></Button>
-                  </ToolbarWithSmallDevice>
-                  <ToolbarWithBigDevice>
-                    <Link to={`/updateProduct/${product.id}`}>
-                      <Button type="primary" icon={<EditOutlined />}>
-                        Edit
+                      <Button
+                        type="default"
+                        icon={<DeleteOutlined />}
+                        onClick={() => showConfirm()}
+                      >
+                        Delete
                       </Button>
-                    </Link>
-
-                    <Button
-                      type="default"
-                      icon={<DeleteOutlined />}
-                      onClick={() => showConfirm()}
-                    >
-                      Delete
-                    </Button>
-                  </ToolbarWithBigDevice>
-                </ToolbarContainer>
-              </Col>
-              <Col span={24}>
-                <ShortDescription>{product.description}</ShortDescription>
-              </Col>
-              <Col lg={11} sm={24}>
-                <ImageWrapper>
-                  <Image src={`${SERVER_URL}/${product.imageurl}`} />
-                </ImageWrapper>
-              </Col>
-              <Col lg={11} style={{ paddingLeft: 20 }} sm={24}>
-                <table>
-                  <tbody>
-                    <tr>
-                      <ColumnHeader>Flex:</ColumnHeader>
-                      <td>{product.flex}</td>
-                    </tr>
-                    <tr>
-                      <ColumnHeader>Frame:</ColumnHeader>
-                      <td>{product.frame}</td>
-                    </tr>
-                    <tr>
-                      <ColumnHeader>Weight/Grip:</ColumnHeader>
-                      <td>{product.weight}</td>
-                    </tr>
-                    <tr>
-                      <ColumnHeader>Stringing recommend:</ColumnHeader>
-                      <td>{product.stringing}</td>
-                    </tr>
-                    <tr>
-                      <ColumnHeader>Color(s):</ColumnHeader>
-                      <td>{product.colors}</td>
-                    </tr>
-                    <tr>
-                      <ColumnHeader>Made in:</ColumnHeader>
-                      <td>{product.origin}</td>
-                    </tr>
-                    <tr>
-                      <ColumnHeader>Item Code:</ColumnHeader>
-                      <td>{product.itemcode}</td>
-                    </tr>
-                    <tr>
-                      <ColumnHeader>Price:</ColumnHeader>
-                      <td>
-                        <Text type="danger">
-                          <NumberFormat
-                            value={product.price}
-                            displayType={"text"}
-                            thousandSeparator={true}
-                            prefix={"$"}
-                          />
-                        </Text>
-                      </td>
-                    </tr>
-                  </tbody>
-                  <tfoot>
-                    <tr>
-                      <td colSpan={2}>
-                        <Link to="/products">
-                          <Button type="default" icon={<RollbackOutlined />}>
-                            Back to list
-                          </Button>
-                        </Link>
-                      </td>
-                    </tr>
-                  </tfoot>
-                </table>
-              </Col>
-            </Row>
-          </Card>
-        </>
-      )}
+                    </ToolbarWithBigDevice>
+                  </ToolbarContainer>
+                </Col>
+                <Col span={24}>
+                  <ShortDescription>{product.description}</ShortDescription>
+                </Col>
+                <Col lg={11} sm={24}>
+                  <ImageWrapper>
+                    <Image src={`${SERVER_URL}/${product.imageurl}`} />
+                  </ImageWrapper>
+                </Col>
+                <Col lg={11} style={{ paddingLeft: 20 }} sm={24}>
+                  <table>
+                    <tbody>
+                      <tr>
+                        <ColumnHeader>Flex:</ColumnHeader>
+                        <td>{product.flex}</td>
+                      </tr>
+                      <tr>
+                        <ColumnHeader>Frame:</ColumnHeader>
+                        <td>{product.frame}</td>
+                      </tr>
+                      <tr>
+                        <ColumnHeader>Weight/Grip:</ColumnHeader>
+                        <td>{product.weight}</td>
+                      </tr>
+                      <tr>
+                        <ColumnHeader>Stringing recommend:</ColumnHeader>
+                        <td>{product.stringing}</td>
+                      </tr>
+                      <tr>
+                        <ColumnHeader>Color(s):</ColumnHeader>
+                        <td>{product.colors}</td>
+                      </tr>
+                      <tr>
+                        <ColumnHeader>Made in:</ColumnHeader>
+                        <td>{product.origin}</td>
+                      </tr>
+                      <tr>
+                        <ColumnHeader>Item Code:</ColumnHeader>
+                        <td>{product.itemcode}</td>
+                      </tr>
+                      <tr>
+                        <ColumnHeader>Price:</ColumnHeader>
+                        <td>
+                          <Text type="danger">
+                            <NumberFormat
+                              value={product.price}
+                              displayType={"text"}
+                              thousandSeparator={true}
+                              prefix={"$"}
+                            />
+                          </Text>
+                        </td>
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <td colSpan={2}>
+                          <Link to="/products">
+                            <Button type="default" icon={<RollbackOutlined />}>
+                              Back to list
+                            </Button>
+                          </Link>
+                        </td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </Col>
+              </Row>
+            </CardRadius>
+          </>
+        )}
+      </ChildContentWrapper>
     </>
   );
 };

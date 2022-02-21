@@ -1,4 +1,3 @@
-import { Space } from "antd";
 import styled from "styled-components";
 
 export const Heading = styled.h1`
@@ -6,7 +5,7 @@ export const Heading = styled.h1`
   margin-bottom: 0;
 
   @media (min-width: 991px) {
-    font-size: 3.6rem;
+    font-size: 3rem;
   }
 `;
 
@@ -26,18 +25,4 @@ export const ColumnHeader = styled.td`
 export const ImageWrapper = styled.div`
   display: flex;
   justify-content: center;
-`;
-
-export const ToolbarWithBigDevice = styled(Space)`
-  display: none;
-  @media (min-width: 991px) {
-    display: inline-flex;
-  }
-`;
-
-export const ToolbarWithSmallDevice = styled(Space)`
-  display: none;
-  @media (max-width: 991px) {
-    display: inline-flex;
-  }
 `;

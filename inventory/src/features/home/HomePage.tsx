@@ -1,9 +1,13 @@
 import React from "react";
+import { CardRadius } from "../../app/common/styled/CardRadius.styled";
+import { GhostPageHeader } from "../../app/common/styled/GhostPageHeader.styled";
+import { ChildContentWrapper } from "../../app/layout/App.styled";
 
 const HomePage = () => {
   return (
     <>
-      <h1>Welcome to Badminton Inventory</h1>
+      <GhostPageHeader className="site-page-header" title="Dashboard" />
+      <ChildContentWrapper><CardRadius>Welcome</CardRadius></ChildContentWrapper>
     </>
   );
 };

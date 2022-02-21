@@ -1,15 +1,34 @@
 import React from "react";
-import { Space, Table, Modal, Image, Typography, notification } from "antd";
+import {
+  Table,
+  Modal,
+  Image,
+  Typography,
+  notification,
+  Button,
+} from "antd";
 import { ColumnsType } from "antd/es/table";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../app/hook/hooks";
 import { deleteProductAsync, fetchProductsAsync } from "../productActions";
 import NumberFormat from "react-number-format";
-import { ExclamationCircleOutlined } from "@ant-design/icons";
+import {
+  ExclamationCircleOutlined,
+  EditOutlined,
+  DeleteOutlined,
+} from "@ant-design/icons";
 
 import { SERVER_URL } from "./../../../app/common/constants";
 import { IProductListItem } from "../../../app/model/product";
 import ProductListToolbar from "./ProductListToolbar";
+import { CardRadius } from "../../../app/common/styled/CardRadius.styled";
+import { GhostPageHeader } from "../../../app/common/styled/GhostPageHeader.styled";
+import { ChildContentWrapper } from "../../../app/layout/App.styled";
+import {
+  ToolbarWithBigDevice,
+  ToolbarWithSmallDevice,
+} from "../../../app/common/styled/ToolBar.styled";
+
 const { confirm } = Modal;
 
 interface IProps {
@@ -37,7 +56,7 @@ const ProductList: React.FC<IProps> = ({ products }) => {
       width: 120,
       // eslint-disable-next-line jsx-a11y/anchor-is-valid
       render: (text: string) => (
-        <Image width={100} src={`${SERVER_URL}/${text}`} />
+        <Image  src={`${SERVER_URL}/${text}`} />
       ),
     },
     {
@@ -64,12 +83,27 @@ const ProductList: React.FC<IProps> = ({ products }) => {
       title: "Action",
       key: "action",
       render: (text: string, record: IProductListItem) => (
-        <Space size="middle">
-          <Link to={`/updateProduct/${record.id}`}>Edit</Link>
-          <Typography.Link onClick={() => showConfirm(record.id, record.name)}>
-            Delete
-          </Typography.Link>
-        </Space>
+        <>
+          <ToolbarWithBigDevice size="middle">
+            <Link to={`/updateProduct/${record.id}`}>Edit</Link>
+            <Typography.Link
+              onClick={() => showConfirm(record.id, record.name)}
+            >
+              Delete
+            </Typography.Link>
+          </ToolbarWithBigDevice>
+
+          <ToolbarWithSmallDevice size="middle">
+            <Link to={`/updateProduct/${record.id}`}>
+              <Button type="primary" icon={<EditOutlined />}></Button>
+            </Link>
+            <Button
+              type="default"
+              icon={<DeleteOutlined />}
+              onClick={() => showConfirm(record.id, record.name)}
+            ></Button>
+          </ToolbarWithSmallDevice>
+        </>
       ),
     },
   ];
@@ -113,15 +147,22 @@ const ProductList: React.FC<IProps> = ({ products }) => {
 
   return (
     <>
-      <ProductListToolbar />
-      <Table
-        loading={loading}
-        dataSource={products}
-        columns={columns}
-        rowKey="id"
-        pagination={false}
-      />
-      ;
+      <GhostPageHeader className="site-page-header" title="Product List" />
+
+      <ChildContentWrapper>
+        <CardRadius>
+          <ProductListToolbar />
+        </CardRadius>
+        <CardRadius style={{ marginTop: 24 }}>
+          <Table
+            loading={loading}
+            dataSource={products}
+            columns={columns}
+            rowKey="id"
+            pagination={false}
+          />
+        </CardRadius>
+      </ChildContentWrapper>
     </>
   );
 };

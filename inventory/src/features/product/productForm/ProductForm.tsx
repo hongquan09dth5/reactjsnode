@@ -16,6 +16,8 @@ import { Avatar } from "./../../../app/common/photos/Avatar";
 import { IProduct } from "../../../app/model/product";
 import { UploadFile } from "antd/lib/upload/interface";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
+import { ChildContentWrapper } from "../../../app/layout/App.styled";
+import { GhostPageHeader } from "../../../app/common/styled/GhostPageHeader.styled";
 
 const ProductForm = ({ match, history, location }) => {
   const dispatch = useAppDispatch();
@@ -207,90 +209,106 @@ const ProductForm = ({ match, history, location }) => {
   } else {
     return (
       <>
-        <Card>
-          <Form
-            layout="vertical"
-            initialValues={initialValues}
-            onFinish={onFinish}
-          >
-            <FormItem label="Product Name" name="name" rules={validations.name}>
-              <Input />
-            </FormItem>
-            <FormItem label="Product Description" name="description">
-              <Input.TextArea rows={4} />
-            </FormItem>
+        <GhostPageHeader className="site-page-header" title={isCreating ? 'Create Product' : 'Edit Product'} />
 
-            <FormItem
-              label="Image"
-              name="files"
-              getValueFromEvent={getFile}
-              valuePropName="fileList"
-              rules={
-                isCreating
-                  ? validations.files
-                  : [{ required: false, message: "" }]
-              }
+        <ChildContentWrapper>
+          <Card>
+            <Form
+              layout="vertical"
+              initialValues={initialValues}
+              onFinish={onFinish}
             >
-              <Upload
-                maxCount={1}
-                listType="picture-card"
-                beforeUpload={beforeUpload}
-                onPreview={onPreview}
+              <FormItem
+                label="Product Name"
+                name="name"
+                rules={validations.name}
               >
-                {uploadButton}
-              </Upload>
-            </FormItem>
-            {avatarCard}
-            <FormItem label="Price" name="price" rules={validations.price}>
-              <FullWithInputNumber />
-            </FormItem>
-            <FormItem label="Flex" name="flex" rules={validations.flex}>
-              <Input />
-            </FormItem>
-            <FormItem label="Frame" name="frame" rules={validations.frame}>
-              <Input />
-            </FormItem>
-            <FormItem
-              label="Weight / Grip"
-              name="weight"
-              rules={validations.weight}
-            >
-              <Input />
-            </FormItem>
-            <FormItem
-              label="Stringing Advice"
-              name="stringing"
-              rules={validations.stringing}
-            >
-              <Input />
-            </FormItem>
-            <FormItem label="Color(s)" name="colors" rules={validations.colors}>
-              <Input />
-            </FormItem>
-            <FormItem label="Made in" name="origin" rules={validations.origin}>
-              <Input />
-            </FormItem>
-            <FormItem
-              label="Item Code"
-              name="itemcode"
-              rules={validations.itemcode}
-            >
-              <Input />
-            </FormItem>
-            <Form.Item wrapperCol={{ offset: 10, span: 14 }}>
-              <SubmitButton
-                type="primary"
-                htmlType="submit"
-                loading={actionLoading}
+                <Input />
+              </FormItem>
+              <FormItem label="Product Description" name="description">
+                <Input.TextArea rows={4} />
+              </FormItem>
+
+              <FormItem
+                label="Image"
+                name="files"
+                getValueFromEvent={getFile}
+                valuePropName="fileList"
+                rules={
+                  isCreating
+                    ? validations.files
+                    : [{ required: false, message: "" }]
+                }
               >
-                {isCreating ? "Create" : "Update"}
-              </SubmitButton>
-              <Link to="/products">
-                <Button type="default">Back</Button>
-              </Link>
-            </Form.Item>
-          </Form>
-        </Card>
+                <Upload
+                  maxCount={1}
+                  listType="picture-card"
+                  beforeUpload={beforeUpload}
+                  onPreview={onPreview}
+                >
+                  {uploadButton}
+                </Upload>
+              </FormItem>
+              {avatarCard}
+              <FormItem label="Price" name="price" rules={validations.price}>
+                <FullWithInputNumber />
+              </FormItem>
+              <FormItem label="Flex" name="flex" rules={validations.flex}>
+                <Input />
+              </FormItem>
+              <FormItem label="Frame" name="frame" rules={validations.frame}>
+                <Input />
+              </FormItem>
+              <FormItem
+                label="Weight / Grip"
+                name="weight"
+                rules={validations.weight}
+              >
+                <Input />
+              </FormItem>
+              <FormItem
+                label="Stringing Advice"
+                name="stringing"
+                rules={validations.stringing}
+              >
+                <Input />
+              </FormItem>
+              <FormItem
+                label="Color(s)"
+                name="colors"
+                rules={validations.colors}
+              >
+                <Input />
+              </FormItem>
+              <FormItem
+                label="Made in"
+                name="origin"
+                rules={validations.origin}
+              >
+                <Input />
+              </FormItem>
+              <FormItem
+                label="Item Code"
+                name="itemcode"
+                rules={validations.itemcode}
+              >
+                <Input />
+              </FormItem>
+              <Form.Item wrapperCol={{ offset: 10, span: 14 }}>
+                <SubmitButton
+                  type="primary"
+                  htmlType="submit"
+                  loading={actionLoading}
+                >
+                  {isCreating ? "Create" : "Update"}
+                </SubmitButton>
+                <Link to="/products">
+                  <Button type="default">Back</Button>
+                </Link>
+              </Form.Item>
+            </Form>
+          </Card>
+        </ChildContentWrapper>
       </>
     );
   }
