@@ -1,7 +1,16 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "./../../../app/hook/hooks";
-import { Form, Input, Card, Upload, Button, notification, message } from "antd";
+import {
+  Form,
+  Input,
+  Card,
+  Upload,
+  Button,
+  notification,
+  message,
+  Select,
+} from "antd";
 import {
   fetchProductsByIdAsync,
   createProductAsync,
@@ -18,6 +27,9 @@ import { UploadFile } from "antd/lib/upload/interface";
 import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { ChildContentWrapper } from "../../../app/layout/App.styled";
 import { GhostPageHeader } from "../../../app/common/styled/GhostPageHeader.styled";
+import { productBrands } from "../../../app/model/productBrand";
+
+const { Option } = Select;
 
 const ProductForm = ({ match, history, location }) => {
   const dispatch = useAppDispatch();
@@ -35,7 +47,6 @@ const ProductForm = ({ match, history, location }) => {
       };
 
       fetchProductById();
-
       return;
     }
 
@@ -72,6 +83,9 @@ const ProductForm = ({ match, history, location }) => {
         max: 100,
         message: "Please enter less than or equal to 100 characters.",
       },
+    ],
+    brand: [
+      { required: true, message: "Please select a brand." }
     ],
     price: [{ required: true, message: "Please enter price." }],
     flex: [
@@ -209,7 +223,10 @@ const ProductForm = ({ match, history, location }) => {
   } else {
     return (
       <>
-        <GhostPageHeader className="site-page-header" title={isCreating ? 'Create Product' : 'Edit Product'} />
+        <GhostPageHeader
+          className="site-page-header"
+          title={isCreating ? "Create Product" : "Edit Product"}
+        />
 
         <ChildContentWrapper>
           <Card>
@@ -225,10 +242,20 @@ const ProductForm = ({ match, history, location }) => {
               >
                 <Input />
               </FormItem>
+              <Form.Item
+                name="productbrand"
+                label="Brand"
+                rules={validations.brand}
+              >
+                <Select placeholder="Please select a brand" allowClear>
+                  {productBrands.map((brand) => (
+                    <Option value={brand.id} key={'brand_' + brand.id}>{brand.name}</Option>
+                  ))}
+                </Select>
+              </Form.Item>
               <FormItem label="Product Description" name="description">
                 <Input.TextArea rows={4} />
               </FormItem>
-
               <FormItem
                 label="Image"
                 name="files"

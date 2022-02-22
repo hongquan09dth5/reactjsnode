@@ -6,12 +6,6 @@ import { DashboardOutlined, TableOutlined } from "@ant-design/icons";
 const SideBar = () => (
   <>
     <LeftSider breakpoint="lg" collapsedWidth="48">
-      {/* <Link to="/">
-        <Logo className="logo ant-row">
-          <LogoText>BADMINTON</LogoText>
-        </Logo>
-      </Link> */}
-
       <Menu theme="light" mode="inline" defaultSelectedKeys={["1"]}>
         <Menu.Item key="1" icon={<DashboardOutlined />}>
           <NavLink to="/"> Dashboard</NavLink>

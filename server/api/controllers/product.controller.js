@@ -26,6 +26,19 @@ const getProduct = async (req, res, next) => {
   }
 };
 
+const getTotalByBrand = async (req, res, next) => {
+  try {
+    await pool
+      .query("SELECT productbrand, count(productbrand) from product group by productbrand")
+      .then((results) => {
+        res.status(200).json(results.rows);
+      });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
+};
+
 const updateProduct = async (req, res, next) => {
   const query = `UPDATE "product"
                  SET "name" = $2, 
@@ -38,7 +51,8 @@ const updateProduct = async (req, res, next) => {
                      "itemcode"=$9,
                      "origin"=$10,
                      "price"=$11,
-                     "imageurl"=$12
+                     "imageurl"=$12,
+                     "productbrand"=$13
                  WHERE "id" =$1`;
 
   const {
@@ -54,6 +68,7 @@ const updateProduct = async (req, res, next) => {
     price,
     origin,
     imageurl,
+    productbrand,
   } = req.body;
 
   try {
@@ -71,6 +86,7 @@ const updateProduct = async (req, res, next) => {
         origin,
         price,
         imageurl,
+        productbrand,
       ])
       .then((results) => {
         res.status(200).json();
@@ -96,6 +112,7 @@ const createProduct = async (req, res, next) => {
     origin,
     price,
     imageurl,
+    productbrand,
   } = req.body;
   try {
     await pool
@@ -112,7 +129,7 @@ const createProduct = async (req, res, next) => {
         itemcode,
         origin,
         1,
-        1,
+        productbrand,
       ])
       .then((results) => {
         res.status(200).json();
@@ -142,4 +159,5 @@ module.exports = {
   createProduct,
   updateProduct,
   deleteProduct,
+  getTotalByBrand,
 };

@@ -2,7 +2,11 @@ import React, { useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "./../../../app/hook/hooks";
 import { fetchProductsByIdAsync, deleteProductAsync } from "../productActions";
 import { Image, Row, Col, Button, Typography, Modal, notification } from "antd";
-import { ToolbarContainer, ToolbarWithBigDevice, ToolbarWithSmallDevice } from "../../../app/common/styled/ToolBar.styled";
+import {
+  ToolbarContainer,
+  ToolbarWithBigDevice,
+  ToolbarWithSmallDevice,
+} from "../../../app/common/styled/ToolBar.styled";
 import NumberFormat from "react-number-format";
 import { Link } from "react-router-dom";
 import {
@@ -15,7 +19,7 @@ import {
   ColumnHeader,
   Heading,
   ShortDescription,
-  ImageWrapper
+  ImageWrapper,
 } from "./ProductDetailPage.styled";
 
 import { SERVER_URL } from "./../../../app/common/constants";
@@ -23,6 +27,7 @@ import LoadingComponent from "../../../app/layout/LoadingComponent";
 import { CardRadius } from "../../../app/common/styled/CardRadius.styled";
 import { ChildContentWrapper } from "../../../app/layout/App.styled";
 import { GhostPageHeader } from "../../../app/common/styled/GhostPageHeader.styled";
+import { productBrands } from "./../../../app/model/productBrand";
 
 const { Text } = Typography;
 const { confirm } = Modal;
@@ -156,6 +161,16 @@ const ProductDetailedPage = ({ match, history }) => {
                       <tr>
                         <ColumnHeader>Item Code:</ColumnHeader>
                         <td>{product.itemcode}</td>
+                      </tr>
+                      <tr>
+                        <ColumnHeader>Brand:</ColumnHeader>
+                        <td>
+                          {
+                            productBrands.find(
+                              (brand) => brand.id === product.productbrand
+                            )?.name
+                          }
+                        </td>
                       </tr>
                       <tr>
                         <ColumnHeader>Price:</ColumnHeader>

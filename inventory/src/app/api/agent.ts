@@ -23,6 +23,9 @@ const Products = {
   getById: async (id: number): Promise<any> => {
     return await requests.get(`/product/${id}`);
   },
+  getTotalByBrand: async (): Promise<any> => {
+    return await requests.post(`/product/totalbybrand`, {});
+  },
   update: async (req: any): Promise<any> => {
     return await requests.put(`/product/update`, req);
   },

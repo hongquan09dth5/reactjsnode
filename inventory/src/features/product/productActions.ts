@@ -9,6 +9,7 @@ import {
   FETCH_PRODUCTS,
   FETCH_PRODUCT_BY_ID,
   CLEAR_PRODUCT,
+  FETCH_TOTAL_BY_BRAND
 } from "./productConstants";
 import { updateSingleProductImage } from "./../../app/common/photos/photo.service";
 
@@ -31,6 +32,20 @@ export const fetchProductsByIdAsync = (id: number) => async (dispatch) => {
     const data = await agent.Products.getById(id);
 
     dispatch({ type: FETCH_PRODUCT_BY_ID, payload: data });
+    dispatch(asyncFinish());
+  } catch (error) {
+    dispatch(asyncError(error));
+    throw error;
+  }
+};
+
+
+export const fetchTotalByBrandAsync = () => async (dispatch) => {
+  dispatch(asyncStart());
+  try {
+    const data = await agent.Products.getTotalByBrand();
+
+    dispatch({ type: FETCH_TOTAL_BY_BRAND, payload: data });
     dispatch(asyncFinish());
   } catch (error) {
     dispatch(asyncError(error));
